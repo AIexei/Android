@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lab2</string>
+    <string name="text1">Enter your name:</string>
+    <string name="text2">Enter your email:</string>
+    <string name="subs">Subscribe</string>
+    <string name="unsubs">unsubscribe</string>
+    <string name="delete">Delete</string>
+</resources>
