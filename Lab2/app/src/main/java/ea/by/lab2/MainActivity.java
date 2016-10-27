@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,6 +29,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     HashMap<String, String> data;
     LinkedList<CheckBox> followers;
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        ArrayList<String> followersNames = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<String>();
+        ArrayList<String> keys = new ArrayList<String>();
+
+        Iterator<String> it = data.keySet().iterator();
+        for (;it.hasNext();) {
+            keys.add(it.next());
+        }
+
+        for (int i = 0; i < followers.size(); i++) {
+            followersNames.add(followers.get(i).getText().toString());
+        }
+
+        for (int i = 0; i < keys.size(); i++) {
+            values.add(data.get(keys.get(i)));
+        }
+
+        outState.putStringArrayList("followersNames", followersNames);
+        outState.putStringArrayList("values", values);
+        outState.putStringArrayList("keys", keys);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +74,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         subsButton.setOnClickListener(this);
         unsubsButton.setOnClickListener(this);
+
+        if (savedInstanceState != null) {
+            ArrayList<String> followersNames = savedInstanceState.getStringArrayList("followersNames");
+            ArrayList<String> values = savedInstanceState.getStringArrayList("values");
+            ArrayList<String> keys = savedInstanceState.getStringArrayList("keys");
+
+            for (int i = 0; i < keys.size(); i++) {
+                data.put(keys.get(i), values.get(i));
+            }
+
+            for (int i = 0; i < followersNames.size(); i++) {
+                CheckBox checkBox = new CheckBox(this);
+                checkBox.setText(followersNames.get(i));
+                checkBox.setChecked(false);
+
+                followers.add(checkBox);
+                gridLayout.addView(checkBox);
+            }
+
+            System.out.println(data.toString());
+        }
     }
 
     @Override
@@ -86,13 +134,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         nameText.setText(null);
 
                         toastNotification("You are subscribed!");
+                        System.out.println(data.toString());
 
                         CheckBox checkBox = new CheckBox(this);
                         checkBox.setText(email);
                         checkBox.setChecked(false);
 
                         followers.add(checkBox);
-
                         gridLayout.addView(checkBox);
                     } else {
                         msgView.setText("User with this email is subscribed");
@@ -101,21 +149,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.unsubsButton:
-                ArrayList<Integer> index = new ArrayList<Integer>();
+                LinkedList<CheckBox> tempFollowers = new LinkedList<CheckBox>();
 
                 for (int i = 0; i < followers.size(); i++) {
                     if (followers.get(i).isChecked()) {
-                        index.add(i);
+                        String mail = followers.get(i).getText().toString();
+                        data.remove(mail);
+
+                        gridLayout.removeView(followers.get(i));
+                        followers.remove(i);
+                        i--;
+                    } else {
+                        tempFollowers.add(followers.get(i));
                     }
                 }
 
-                for (int i = 0; i < index.size(); i++) {
-                    String mail = followers.get(index.get(i)).getText().toString();
-                    data.remove(mail);
-
-                    gridLayout.removeView(followers.get(index.get(i)));
-                    followers.remove(index.get(i));
-                }
+                followers = tempFollowers;
                 break;
         }
     }
