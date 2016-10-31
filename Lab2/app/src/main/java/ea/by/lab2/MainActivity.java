@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 followers.add(checkBox);
                 gridLayout.addView(checkBox);
             }
-
-            System.out.println(data.toString());
         }
     }
 
@@ -134,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         nameText.setText(null);
 
                         toastNotification("You are subscribed!");
-                        System.out.println(data.toString());
 
                         CheckBox checkBox = new CheckBox(this);
                         checkBox.setText(email);
@@ -149,8 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.unsubsButton:
-                LinkedList<CheckBox> tempFollowers = new LinkedList<CheckBox>();
-
                 for (int i = 0; i < followers.size(); i++) {
                     if (followers.get(i).isChecked()) {
                         String mail = followers.get(i).getText().toString();
@@ -159,12 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         gridLayout.removeView(followers.get(i));
                         followers.remove(i);
                         i--;
-                    } else {
-                        tempFollowers.add(followers.get(i));
                     }
                 }
 
-                followers = tempFollowers;
                 break;
         }
     }

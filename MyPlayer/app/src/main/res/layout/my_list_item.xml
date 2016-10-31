@@ -20,6 +20,8 @@
         android:layout_marginTop="1dp"
         android:layout_marginLeft="20dp"
         android:textStyle="normal|italic"
-        android:textColor="?attr/actionMenuTextColor">
+        android:textColor="@android:color/holo_orange_dark"
+        android:text="asdfsadfas"
+        android:textAllCaps="false">
     </TextView>
 </LinearLayout>

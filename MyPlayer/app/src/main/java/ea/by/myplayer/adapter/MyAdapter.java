@@ -55,10 +55,7 @@ public class MyAdapter extends BaseAdapter {
         ListItem  item = getMyListItem(position);
 
         ((TextView) view.findViewById(R.id.name)).setText(item.name);
-
-
-        ///////////////////change
-        ((ImageView) view.findViewById(R.id.image)).setImageResource(R.mipmap.ic_launcher);
+        ((ImageView) view.findViewById(R.id.image)).setImageResource(item.imageID);
 
         return view;
     }

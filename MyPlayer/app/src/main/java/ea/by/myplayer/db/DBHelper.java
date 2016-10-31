@@ -17,7 +17,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*
         db.execSQL("create table Categories ("
                 + "id integer primary key autoincrement,"
                 + "category_name text not null,"
@@ -28,11 +27,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "song_image integer not null,"
                 + "category_id integer not null,"
                 + "foreign key (category_id) references Categories(id)" + ");");
-         */
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        //db.execSQL("drop table if exists Categories");
+        //db.execSQL("drop talbe if exists Sons");
+        //onCreate(db);
     }
 }
